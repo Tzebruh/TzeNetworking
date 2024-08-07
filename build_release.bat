@@ -1,0 +1,1 @@
+dotnet build TzeNetworking.csproj -c Release
