@@ -72,7 +72,7 @@ public class TzeTcpClient
     public void Send(TzePacket packet)
     {
         NetworkStream stream = Client.GetStream();
-        stream.Write(packet.Data);
+        stream.Write(packet.SerializedPacket);
     }
     #endregion
 }
