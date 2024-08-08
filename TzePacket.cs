@@ -3,8 +3,14 @@ using System.Text.Json;
 
 namespace TzeNetworking;
 
+/// <summary>
+/// A packet of data that can be decoded to a byte array.
+/// </summary>
 public struct TzePacket
 {
+	/// <summary>
+	/// The data of this TzePacket.
+	/// </summary>
 	public byte[]? Data { get; } = null;
 
 	#region Constructors

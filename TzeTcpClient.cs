@@ -2,8 +2,14 @@
 
 namespace TzeNetworking;
 
+/// <summary>
+/// The TzeNetworking abstraction of `System.Net.Sockets.TcpClient`.
+/// </summary>
 public class TzeTcpClient
 {
+    /// <summary>
+    /// The actual TcpClient being used.
+    /// </summary>
     public TcpClient Client { get; private set; }
 
     #region Constructors
@@ -50,7 +56,7 @@ public class TzeTcpClient
     /// <summary>
     /// Connects to the provided address.
     /// </summary>
-    /// <param name="connectionAddress">The address to connect to. (Excluding the port.)</param>
+    /// <param name="hostname">The address to connect to. (Excluding the port.)</param>
     /// <param name="port">The port to connect to.</param>
     public void Connect(string hostname, int port)
     {
