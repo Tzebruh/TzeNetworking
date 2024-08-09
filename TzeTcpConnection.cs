@@ -98,7 +98,6 @@ public class TzeTcpConnection
 					bufferAsList.RemoveRange(receivedBytes, bufferAsList.Count - receivedBytes);
 					buffer = bufferAsList.ToArray();
 
-					Console.WriteLine(Encoding.UTF8.GetString(buffer));
 					TzePacket? packet = TzePacket.FromSerializedPacket(buffer);
 					OnReceive?.Invoke(packet ?? new TzePacket(TzePacket.TzePacketType.Message, buffer));
 				}
