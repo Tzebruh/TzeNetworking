@@ -58,6 +58,15 @@ public class TzeTcpConnection
 	{
 		Task.Run(async () => await ClientSocket.SendAsync(packet.SerializedPacket, SocketFlags.None, cancellationSource.Token));
 	}
+
+	/// <summary>
+	/// Sends an array of bytes to the client on the other end of this connection.
+	/// </summary>
+	/// <param name="buffer">The bytes to send.</param>
+	public void Send(byte[] buffer)
+	{
+		Task.Run(async () => await ClientSocket.SendAsync(buffer, SocketFlags.None, cancellationSource.Token));
+	}
 	#endregion
 
 	#region DisconnectAndDispose
