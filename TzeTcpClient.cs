@@ -1,4 +1,5 @@
 ﻿using System.Net.Sockets;
+using System.Text;
 
 namespace TzeNetworking;
 
@@ -85,11 +86,32 @@ public class TzeTcpClient
 	/// <summary>
 	/// Sends the provided TzePacket to the server.
 	/// </summary>
-	/// <param name="packet">The TzePacket to send</param>
+	/// <param name="packet">The TzePacket to send.</param>
 	public void Send(TzePacket packet)
 	{
 		NetworkStream stream = Client.GetStream();
 		stream.Write(packet.SerializedPacket);
+	}
+
+	/// <summary>
+	/// Sends the provided data to the server, not formatted as a TzePacket.
+	/// </summary>
+	/// <param name="data">The data to send as a byte array.</param>
+	public void SendRaw(byte[] data)
+	{
+		NetworkStream stream = Client.GetStream();
+		stream.Write(data);
+	}
+
+	/// <summary>
+	/// Sends the provided data to the server, not formatted as a TzePacket.
+	/// </summary>
+	/// <param name="data">The data to send as a string.</param>
+	public void SendRaw(string data)
+	{
+		byte[] byteData = Encoding.UTF8.GetBytes(data);
+		NetworkStream stream = Client.GetStream();
+		stream.Write(byteData);
 	}
 	#endregion
 }
