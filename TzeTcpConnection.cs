@@ -28,7 +28,7 @@ public class TzeTcpConnection
 	/// <summary>
 	/// Called when the client on the other end of this connection gets disconnected.
 	/// </summary>
-	public event Action? OnDisconnect;
+	public event Action<TzeTcpConnection>? OnDisconnect;
 	#endregion
 
 	#region Constructor/Destructor
@@ -97,7 +97,7 @@ public class TzeTcpConnection
 					{
 						if (!Disconnected)
 						{
-							OnDisconnect?.Invoke();
+							OnDisconnect?.Invoke(this);
 							DisconnectAndDispose();
 						}
 					}
@@ -109,7 +109,7 @@ public class TzeTcpConnection
 					TzePacket? packet = TzePacket.FromSerializedPacket(buffer);
 					if (packet != null && packet.Value.PacketType == TzePacket.TzePacketType.Disconnect)
 					{
-						OnDisconnect?.Invoke();
+						OnDisconnect?.Invoke(this);
 						DisconnectAndDispose();
 						continue;
 					}
@@ -122,7 +122,7 @@ public class TzeTcpConnection
 				{
 					if (!Disconnected)
 					{
-						OnDisconnect?.Invoke();
+						OnDisconnect?.Invoke(this);
 						DisconnectAndDispose();
 					}
 				}
