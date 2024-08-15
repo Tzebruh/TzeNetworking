@@ -62,6 +62,16 @@ public class TzeTcpClient
 	{
 		Client.Connect(hostname, port);
 	}
+
+	/// <summary>
+	/// Sends a disconnect TzePacket and then disposes of the internal TcpClient object.
+	/// </summary>
+	public void Disconnect()
+	{
+		TzePacket disconnectPacket = new(TzePacket.TzePacketType.Disconnect, null);
+		Send(disconnectPacket);
+		Client.Dispose();
+	}
 	#endregion
 
 	#region Dispose

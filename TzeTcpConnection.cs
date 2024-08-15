@@ -1,5 +1,4 @@
 using System.Net.Sockets;
-using System.Text;
 
 namespace TzeNetworking;
 
@@ -108,6 +107,12 @@ public class TzeTcpConnection
 					buffer = bufferAsList.ToArray();
 
 					TzePacket? packet = TzePacket.FromSerializedPacket(buffer);
+					if (packet != null && packet.Value.PacketType == TzePacket.TzePacketType.Disconnect)
+					{
+						OnDisconnect?.Invoke();
+						DisconnectAndDispose();
+						continue;
+					}
 					OnReceive?.Invoke(packet ?? new TzePacket(TzePacket.TzePacketType.Message, buffer));
 				}
 			}

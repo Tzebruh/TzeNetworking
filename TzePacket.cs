@@ -16,7 +16,7 @@ public struct TzePacket
 	/// <summary>
 	/// The data of this TzePacket.
 	/// </summary>
-	public string Data { get; set; }
+	public string? Data { get; set; }
 
     /// <summary>
     /// Gets the serialized data of this TzePacket. This is a JSON byte array that represents the PacketType and Data properties.
@@ -29,8 +29,8 @@ public struct TzePacket
     /// Creates a new TzePacket with the provided type and data.
     /// </summary>
     /// <param name="packetType">The type of the TzePacket.</param>
-    /// <param name="data">The data of the TzePacket as a string.</param>
-    public TzePacket(TzePacketType packetType, string data)
+    /// <param name="data">The data of the TzePacket as a string. May be null.</param>
+    public TzePacket(TzePacketType packetType, string? data)
 	{
 		PacketType = packetType;
 		Data = data;
@@ -56,6 +56,7 @@ public struct TzePacket
 	/// <param name="type">The type of the object to deserialize to.</param>
 	public object? GetDataAsObject(Type type)
 	{
+		if (Data == null) return null;
 		return JsonSerializer.Deserialize(Data, type);
 	}
 	#endregion
