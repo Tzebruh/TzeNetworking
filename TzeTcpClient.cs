@@ -13,6 +13,15 @@ public class TzeTcpClient
 	/// </summary>
 	public TcpClient Client { get; private set; }
 
+	private CancellationTokenSource cancellationSource = new();
+
+	#region Event Definitions
+	/// <summary>
+	/// Called when a TzePacket has been received from the listener this client is connected to.
+	/// </summary>
+	public event Action<TzePacket>? OnReceive;
+	#endregion
+
 	#region Constructors
 	/// <summary>
 	/// Creates a new TzeTcpClient. Doesn't connect to anything by default.
@@ -20,6 +29,7 @@ public class TzeTcpClient
 	public TzeTcpClient()
 	{
 		Client = new();
+		StartAsyncTasks();
 	}
 
 	/// <summary>
@@ -30,6 +40,7 @@ public class TzeTcpClient
 	{
 		Client = new();
 		Client.Connect(connectionAddress.Host, connectionAddress.Port);
+		StartAsyncTasks();
 	}
 
 	/// <summary>
@@ -41,6 +52,7 @@ public class TzeTcpClient
 	{
 		Client = new();
 		Client.Connect(hostname, port);
+		StartAsyncTasks();
 	}
 	#endregion
 
@@ -65,13 +77,21 @@ public class TzeTcpClient
 	}
 
 	/// <summary>
-	/// Sends a disconnect TzePacket and then disposes of the internal TcpClient object.
+	/// Sends a disconnect TzePacket. Does NOT dispose of the internal TcpClient object.
 	/// </summary>
 	public void Disconnect()
 	{
 		TzePacket disconnectPacket = new(TzePacket.TzePacketType.Disconnect, null);
 		Send(disconnectPacket);
-		Client.Dispose();
+	}
+
+	/// <summary>
+	/// Sends a disconnect TzePacket and disposes of the internal TcpClient object.
+	/// </summary>
+	public void DisconnectAndDispose()
+	{
+		Disconnect();
+		Dispose();
 	}
 	#endregion
 
@@ -79,7 +99,12 @@ public class TzeTcpClient
 	/// <summary>
 	/// Disposes of the internal TcpClient object.
 	/// </summary>
-	public void Dispose() => Client.Dispose();
+	public void Dispose()
+	{
+		cancellationSource.Cancel();
+		Client.Dispose();
+		cancellationSource.Dispose();
+	}
 	#endregion
 
 	#region Packet Methods
@@ -112,6 +137,27 @@ public class TzeTcpClient
 		byte[] byteData = Encoding.UTF8.GetBytes(data);
 		NetworkStream stream = Client.GetStream();
 		stream.Write(byteData);
+	}
+	#endregion
+
+	#region Internal Methods
+	private void StartAsyncTasks()
+	{
+		Task.Run(async () => {
+			while (true)
+			{
+				byte[] buffer = new byte[Client.ReceiveBufferSize];
+				await Task.Yield(); // Without this, the below line doesn't seem to work. I don't freaking know why this fixes it but it does
+				int receivedBytes = await Client.Client.ReceiveAsync(buffer, SocketFlags.None); // Client.Client is the TcpClient's Socket class
+
+				List<byte> bufferAsList = buffer.ToList();
+				bufferAsList.RemoveRange(receivedBytes, bufferAsList.Count - receivedBytes);
+				buffer = bufferAsList.ToArray();
+
+				TzePacket? packet = TzePacket.FromSerializedPacket(buffer);
+				OnReceive?.Invoke(packet ?? new TzePacket(TzePacket.TzePacketType.Message, buffer));
+			}
+		}, cancellationSource.Token);
 	}
 	#endregion
 }
