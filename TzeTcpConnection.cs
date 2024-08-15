@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System.Text;
 
 namespace TzeNetworking;
 
@@ -59,12 +60,22 @@ public class TzeTcpConnection
 	}
 
 	/// <summary>
-	/// Sends an array of bytes to the client on the other end of this connection.
+	/// Sends the provided data to the client on the other end of this connection, not formatted as a TzePacket.
 	/// </summary>
-	/// <param name="buffer">The bytes to send.</param>
-	public void Send(byte[] buffer)
+	/// <param name="data">The data to send as a byte array.</param>
+	public void SendRaw(byte[] data)
 	{
-		Task.Run(async () => await ClientSocket.SendAsync(buffer, SocketFlags.None, cancellationSource.Token));
+		Task.Run(async () => await ClientSocket.SendAsync(data, SocketFlags.None, cancellationSource.Token));
+	}
+
+	/// <summary>
+	/// Sends the provided data to the client on the other end of this connection, not formatted as a TzePacket.
+	/// </summary>
+	/// <param name="data">The data to send as a string.</param>
+	public void SendRaw(string data)
+	{
+		byte[] byteData = Encoding.UTF8.GetBytes(data);
+		Task.Run(async () => await ClientSocket.SendAsync(byteData, SocketFlags.None, cancellationSource.Token));
 	}
 	#endregion
 

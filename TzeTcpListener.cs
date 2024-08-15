@@ -84,7 +84,7 @@ public class TzeTcpListener
 	{
 		Listening = true;
 		Listener.Start();
-		Task.Run(AsyncUpdateTask, cancellationSource.Token);
+		StartAsyncTasks();
 	} 	
 
 	/// <summary>
@@ -122,14 +122,16 @@ public class TzeTcpListener
 	#endregion
 
 	#region Internal Methods
-	private async Task AsyncUpdateTask()
+	private void StartAsyncTasks()
 	{
-		while (true)
-		{
-			Socket newSocket = await Listener.AcceptSocketAsync();
-			TzeTcpConnection connection = new(newSocket);
-			OnConnection?.Invoke(connection);
-		}
+		Task.Run(async () => {
+			while (true)
+			{
+				Socket newSocket = await Listener.AcceptSocketAsync();
+				TzeTcpConnection connection = new(newSocket);
+				OnConnection?.Invoke(connection);
+			}
+		}, cancellationSource.Token);
 	}
 	#endregion
 }
