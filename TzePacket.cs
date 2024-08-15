@@ -18,19 +18,19 @@ public struct TzePacket
 	/// </summary>
 	public string? Data { get; set; }
 
-    /// <summary>
-    /// Gets the serialized data of this TzePacket. This is a JSON byte array that represents the PacketType and Data properties.
-    /// See also: TzePacket.FromSerializedData(byte[])
-    /// </summary>
-    [JsonIgnore] public readonly byte[] SerializedPacket => JsonSerializer.SerializeToUtf8Bytes(this);
+	/// <summary>
+	/// Gets the serialized data of this TzePacket. This is a JSON byte array that represents the PacketType and Data properties.
+	/// See also: TzePacket.FromSerializedData(byte[])
+	/// </summary>
+	[JsonIgnore] public readonly byte[] SerializedPacket => JsonSerializer.SerializeToUtf8Bytes(this);
 
-    #region Constructors
-    /// <summary>
-    /// Creates a new TzePacket with the provided type and data.
-    /// </summary>
-    /// <param name="packetType">The type of the TzePacket.</param>
-    /// <param name="data">The data of the TzePacket as a string. May be null.</param>
-    public TzePacket(TzePacketType packetType, string? data)
+	#region Constructors
+	/// <summary>
+	/// Creates a new TzePacket with the provided type and data.
+	/// </summary>
+	/// <param name="packetType">The type of the TzePacket.</param>
+	/// <param name="data">The data of the TzePacket as a string. May be null.</param>
+	public TzePacket(TzePacketType packetType, string? data)
 	{
 		PacketType = packetType;
 		Data = data;

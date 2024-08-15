@@ -9,10 +9,10 @@ namespace TzeNetworking;
 /// </summary>
 public class TzeTcpListener
 {
-    /// <summary>
-    /// The actual TcpListener being used.
-    /// </summary>
-    public TcpListener Listener { get; }
+	/// <summary>
+	/// The actual TcpListener being used.
+	/// </summary>
+	public TcpListener Listener { get; }
 
 	/// <summary>
 	/// Whether the listener is currently listening.
@@ -28,55 +28,55 @@ public class TzeTcpListener
 	public event Action<TzeTcpConnection>? OnConnection;
 	#endregion
 
-    #region Constructors/Destructor
-    /// <summary>
-    /// Creates a new TzeTcpListener for listening on the provided port. You may want to use a different overload with IPAddress.Loopback or 127.0.0.1 for development as to not trigger the firewall.
-    /// </summary>
-    /// <param name="port">The port to listen on.</param>
-    public TzeTcpListener(int port)
-    {
-        Listener = new(IPAddress.Any, port);
-    }
+	#region Constructors/Destructor
+	/// <summary>
+	/// Creates a new TzeTcpListener for listening on the provided port. You may want to use a different overload with IPAddress.Loopback or 127.0.0.1 for development as to not trigger the firewall.
+	/// </summary>
+	/// <param name="port">The port to listen on.</param>
+	public TzeTcpListener(int port)
+	{
+		Listener = new(IPAddress.Any, port);
+	}
 
-    /// <summary>
-    /// Creates a new TzeTcpListener for listening on the provided interface and port. You can use this to make sure you're broadcasting on IPv6, for example.
-    /// </summary>
-    /// <param name="host">The interface to listen on. (Excluding the port.) Normally this is `0.0.0.0`.</param>
-    /// <param name="port">The port to listen on.</param>
-    public TzeTcpListener(string host, int port)
-    {
-        Listener = new(
+	/// <summary>
+	/// Creates a new TzeTcpListener for listening on the provided interface and port. You can use this to make sure you're broadcasting on IPv6, for example.
+	/// </summary>
+	/// <param name="host">The interface to listen on. (Excluding the port.) Normally this is `0.0.0.0`.</param>
+	/// <param name="port">The port to listen on.</param>
+	public TzeTcpListener(string host, int port)
+	{
+		Listener = new(
 			new IPAddress(Encoding.UTF8.GetBytes(host)),
 			port
 		);
-    }
+	}
 
 	/// <summary>
-    /// Creates a new TzeTcpListener for listening on the provided interface and port. You can use this to make sure you're broadcasting on IPv6, for example.
-    /// </summary>
-    /// <param name="host">The interface to listen on. Normally this is `IPAddress.Any`.</param>
-    /// <param name="port">The port to listen on.</param>
-    public TzeTcpListener(IPAddress host, int port)
-    {
-        Listener = new(host, port);
-    }
+	/// Creates a new TzeTcpListener for listening on the provided interface and port. You can use this to make sure you're broadcasting on IPv6, for example.
+	/// </summary>
+	/// <param name="host">The interface to listen on. Normally this is `IPAddress.Any`.</param>
+	/// <param name="port">The port to listen on.</param>
+	public TzeTcpListener(IPAddress host, int port)
+	{
+		Listener = new(host, port);
+	}
 
 	/// <summary>
-    /// Creates a new TzeTcpListener for listening on the provided endpoint.
-    /// </summary>
-    /// <param name="endpoint">The endpoint to listen on.</param>
-    public TzeTcpListener(IPEndPoint endpoint)
-    {
-        Listener = new(endpoint);
-    }
+	/// Creates a new TzeTcpListener for listening on the provided endpoint.
+	/// </summary>
+	/// <param name="endpoint">The endpoint to listen on.</param>
+	public TzeTcpListener(IPEndPoint endpoint)
+	{
+		Listener = new(endpoint);
+	}
 
 	/// <summary>
 	/// Stops and disposes of the listener when the object is removed.
 	/// </summary>
 	~TzeTcpListener() => StopAndDispose();
-    #endregion
+	#endregion
 
-    #region Start/Stop/Dispose
+	#region Start/Stop/Dispose
 	/// <summary>
 	/// Starts listening.
 	/// </summary>
@@ -87,10 +87,10 @@ public class TzeTcpListener
 		Task.Run(AsyncUpdateTask, cancellationSource.Token);
 	} 	
 
-    /// <summary>
-    /// Stops listening. Call Start() to start listening again. Call StopAndDispose() to both stop and dispose of the listener.
-    /// </summary>
-    public void Stop()
+	/// <summary>
+	/// Stops listening. Call Start() to start listening again. Call StopAndDispose() to both stop and dispose of the listener.
+	/// </summary>
+	public void Stop()
 	{
 		Listening = false;
 		cancellationSource.Cancel();
@@ -119,17 +119,17 @@ public class TzeTcpListener
 		Stop();
 		Dispose();
 	}
-    #endregion
+	#endregion
 
-    #region Internal Methods
+	#region Internal Methods
 	private async Task AsyncUpdateTask()
 	{
 		while (true)
 		{
 			Socket newSocket = await Listener.AcceptSocketAsync();
 			TzeTcpConnection connection = new(newSocket);
-            OnConnection?.Invoke(connection);
-        }
+			OnConnection?.Invoke(connection);
+		}
 	}
 	#endregion
 }
