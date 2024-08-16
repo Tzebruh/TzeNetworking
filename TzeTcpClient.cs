@@ -78,7 +78,7 @@ public class TzeTcpClient
 	/// <summary>
 	/// Sends a disconnect TzePacket. Does NOT dispose of the internal TcpClient object.
 	/// </summary>
-	public void Disconnect()
+	public void SendDisconnectPacket()
 	{
 		Send(TzePacket.Disconnect);
 	}
@@ -86,9 +86,9 @@ public class TzeTcpClient
 	/// <summary>
 	/// Sends a disconnect TzePacket and disposes of the internal TcpClient object.
 	/// </summary>
-	public void DisconnectAndDispose()
+	public void Disconnect()
 	{
-		Disconnect();
+		SendDisconnectPacket();
 		Dispose();
 	}
 	#endregion
