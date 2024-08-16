@@ -4,7 +4,7 @@ using System.Text;
 namespace TzeNetworking;
 
 /// <summary>
-/// The TzeNetworking abstraction of `System.Net.Sockets.TcpClient`.
+/// An event-based TCP client.
 /// </summary>
 public class TzeTcpClient
 {

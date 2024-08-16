@@ -5,7 +5,7 @@ using System.Text;
 namespace TzeNetworking;
 
 /// <summary>
-/// The TzeNetworking abstraction of `System.Net.Sockets.TcpListener`.
+/// An event-based TCP listener.
 /// </summary>
 public class TzeTcpListener
 {

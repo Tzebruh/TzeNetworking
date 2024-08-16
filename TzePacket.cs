@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace TzeNetworking;
 
 /// <summary>
-/// A packet of data that can be decoded to a byte array.
+/// The standard way of packaging data in TzeNetworking.
 /// </summary>
 public struct TzePacket
 {

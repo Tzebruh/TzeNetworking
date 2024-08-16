@@ -4,7 +4,7 @@ using System.Text;
 namespace TzeNetworking;
 
 /// <summary>
-/// An object used to represent a client connected to a listener.
+/// An object that represents a client from the listener's perspective.
 /// </summary>
 public class TzeTcpConnection
 {
