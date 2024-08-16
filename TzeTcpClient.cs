@@ -29,7 +29,6 @@ public class TzeTcpClient
 	public TzeTcpClient()
 	{
 		Client = new();
-		StartAsyncTasks();
 	}
 
 	/// <summary>
@@ -39,8 +38,7 @@ public class TzeTcpClient
 	public TzeTcpClient(Uri connectionAddress)
 	{
 		Client = new();
-		Client.Connect(connectionAddress.Host, connectionAddress.Port);
-		StartAsyncTasks();
+		Connect(connectionAddress.Host, connectionAddress.Port);
 	}
 
 	/// <summary>
@@ -51,8 +49,7 @@ public class TzeTcpClient
 	public TzeTcpClient(string hostname, int port)
 	{
 		Client = new();
-		Client.Connect(hostname, port);
-		StartAsyncTasks();
+		Connect(hostname, port);
 	}
 	#endregion
 
@@ -64,6 +61,7 @@ public class TzeTcpClient
 	public void Connect(Uri connectionAddress)
 	{
 		Client.Connect(connectionAddress.Host, connectionAddress.Port);
+		StartAsyncTasks();
 	}
 
 	/// <summary>
@@ -74,6 +72,7 @@ public class TzeTcpClient
 	public void Connect(string hostname, int port)
 	{
 		Client.Connect(hostname, port);
+		StartAsyncTasks();
 	}
 
 	/// <summary>
