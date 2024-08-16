@@ -18,11 +18,18 @@ public struct TzePacket
 	/// </summary>
 	public string? Data { get; set; }
 
+	#region Read-only variables
 	/// <summary>
 	/// Gets the serialized data of this TzePacket. This is a JSON byte array that represents the PacketType and Data properties.
 	/// See also: TzePacket.FromSerializedData(byte[])
 	/// </summary>
 	[JsonIgnore] public readonly byte[] SerializedPacket => JsonSerializer.SerializeToUtf8Bytes(this);
+
+	/// <summary>
+	/// Represents a Disconnect TzePacket with an empty string as the Data. This field is read-only.
+	/// </summary>
+	public static readonly TzePacket Disconnect = new(TzePacketType.Disconnect, string.Empty);
+	#endregion
 
 	#region Constructors
 	/// <summary>
@@ -62,11 +69,6 @@ public struct TzePacket
 	#endregion
 
 	#region Static Methods
-	/// <summary>
-	/// Creates a Disconnect TzePacket with an empty byte array as the Data.
-	/// </summary>
-	public static TzePacket Disconnect() => new TzePacket(TzePacketType.Disconnect, Array.Empty<byte>());
-
 	/// <summary>
 	/// Creates a TzePacket from a a JSON byte array. Returns null if the JSON can't be converted.
 	/// </summary>
