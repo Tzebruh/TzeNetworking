@@ -81,8 +81,7 @@ public class TzeTcpClient
 	/// </summary>
 	public void Disconnect()
 	{
-		TzePacket disconnectPacket = new(TzePacket.TzePacketType.Disconnect, null);
-		Send(disconnectPacket);
+		Send(TzePacket.Disconnect);
 	}
 
 	/// <summary>
