@@ -11,14 +11,14 @@ public struct TzePacket
 	/// <summary>
 	/// The type of this TzePacket.
 	/// </summary>
-	public TzePacketType PacketType { get; set; }
+	public TzePacketType PacketType { get; }
 
 	/// <summary>
 	/// The data of this TzePacket.
 	/// </summary>
-	public string? Data { get; set; }
+	public string? Data { get; }
 
-	#region Read-only variables
+	#region Static variables
 	/// <summary>
 	/// Gets the serialized data of this TzePacket. This is a JSON byte array that represents the PacketType and Data properties.
 	/// See also: TzePacket.FromSerializedData(byte[])
@@ -28,7 +28,7 @@ public struct TzePacket
 	/// <summary>
 	/// Represents a Disconnect TzePacket with an empty string as the Data. This field is read-only.
 	/// </summary>
-	public static readonly TzePacket Disconnect = new(TzePacketType.Disconnect, string.Empty);
+	[JsonIgnore] public static readonly TzePacket Disconnect = new(TzePacketType.Disconnect, string.Empty);
 	#endregion
 
 	#region Constructors
