@@ -16,7 +16,7 @@ public struct TzePacket
 	/// <summary>
 	/// The data of this TzePacket.
 	/// </summary>
-	public string? Data { get; set; }
+	public string Data { get; set; }
 
 	#region Static variables
 	/// <summary>
@@ -37,7 +37,7 @@ public struct TzePacket
 	/// </summary>
 	/// <param name="packetType">The type of the TzePacket.</param>
 	/// <param name="data">The data of the TzePacket as a string. May be null.</param>
-	public TzePacket(TzePacketType packetType, string? data)
+	public TzePacket(TzePacketType packetType, string data)
 	{
 		PacketType = packetType;
 		Data = data;
