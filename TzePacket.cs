@@ -11,12 +11,12 @@ public struct TzePacket
 	/// <summary>
 	/// The type of this TzePacket.
 	/// </summary>
-	public TzePacketType PacketType { get; }
+	public TzePacketType PacketType { get; set; }
 
 	/// <summary>
 	/// The data of this TzePacket.
 	/// </summary>
-	public string? Data { get; }
+	public string? Data { get; set; }
 
 	#region Static variables
 	/// <summary>
