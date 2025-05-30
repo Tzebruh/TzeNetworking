@@ -22,12 +22,12 @@ public class TzeTcpConnection
 
 	#region Event Definitions
 	/// <summary>
-	/// Called when a TzePacket has been received from the client on the other end of this connection.
+	/// Called when a TzePacket has been received from the client to which this TzeTcpConnection refers.
 	/// </summary>
 	public event Action<TzePacket>? OnReceive;
 
 	/// <summary>
-	/// Called when the client on the other end of this connection gets disconnected.
+	/// Called when the client to which this TzeTcpConnection refers gets disconnected.
 	/// </summary>
 	public event Action<TzeTcpConnection>? OnDisconnect;
 	#endregion
@@ -51,7 +51,7 @@ public class TzeTcpConnection
 
 	#region Packet Methods
 	/// <summary>
-	/// Sends a TzePacket to the client on the other end of this connection.
+	/// Sends a TzePacket to the client to which this TzeTcpConnection refers.
 	/// </summary>
 	/// <param name="packet">The TzePacket to send.</param>
 	public void Send(TzePacket packet)
@@ -60,7 +60,7 @@ public class TzeTcpConnection
 	}
 
 	/// <summary>
-	/// Sends the provided data to the client on the other end of this connection, not formatted as a TzePacket.
+	/// Sends the provided data to the client to which this TzeTcpConnection refers, not formatted as a TzePacket.
 	/// </summary>
 	/// <param name="data">The data to send as a byte array.</param>
 	public void SendRaw(byte[] data)
@@ -69,7 +69,7 @@ public class TzeTcpConnection
 	}
 
 	/// <summary>
-	/// Sends the provided data to the client on the other end of this connection, not formatted as a TzePacket.
+	/// Sends the provided data to the client to which this TzeTcpConnection refers, not formatted as a TzePacket.
 	/// </summary>
 	/// <param name="data">The data to send as a string.</param>
 	public void SendRaw(string data)
