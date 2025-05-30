@@ -77,10 +77,12 @@ public class TzeTcpClient
 
 	/// <summary>
 	/// Sends a disconnect TzePacket. Does NOT dispose of the internal TcpClient object.
+	/// Even if the client is already disconencted, this method will not throw InvalidOperationException, doing nothing instead.
 	/// </summary>
 	public void SendDisconnectPacket()
 	{
-		Send(TzePacket.Disconnect);
+		try { Send(TzePacket.Disconnect); }
+		catch (InvalidOperationException) { }
 	}
 
 	/// <summary>
