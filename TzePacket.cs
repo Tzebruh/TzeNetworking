@@ -92,7 +92,7 @@ public struct TzePacket
 	public enum TzePacketType
 	{
 		/// <summary>
-		/// A regular message packet. You'll be using this 90% of the time.
+		/// A regular message packet. You'll be using this most of the time.
 		/// </summary>
 		Message = 0,
 		/// <summary>
