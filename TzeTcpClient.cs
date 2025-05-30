@@ -99,7 +99,7 @@ public class TzeTcpClient
 	/// </summary>
 	public void Dispose()
 	{
-		cancellationSource.Cancel();
+		try { cancellationSource.Cancel(); } catch (ObjectDisposedException) {}
 		Client.Dispose();
 		cancellationSource.Dispose();
 	}
