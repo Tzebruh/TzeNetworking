@@ -44,6 +44,17 @@ public struct TzePacket
 	}
 
 	/// <summary>
+	/// Creates a new TzePacket with the provided type and data, converting the byte array into a string.
+	/// </summary>
+	/// <param name="packetType">The type of the TzePacket.</param>
+	/// <param name="data">The data of the TzePacket as a byte array. May be null.</param>
+	public TzePacket(TzePacketType packetType, byte[] data)
+	{
+		PacketType = packetType;
+		Data = System.Text.Encoding.UTF8.GetString(data);
+	}
+
+	/// <summary>
 	/// Creates a new TzePacket with the provided data.
 	/// NOTE: This serializes as JSON, which doesn't work with all objects! If you must, you can use your own serialization algorithm and use the string overload of this constructor.
 	/// </summary>
