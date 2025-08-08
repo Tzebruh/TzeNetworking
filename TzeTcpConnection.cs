@@ -24,7 +24,7 @@ public class TzeTcpConnection
 	/// <summary>
 	/// Called when a TzePacket has been received from the client to which this TzeTcpConnection refers.
 	/// </summary>
-	public event Action<TzePacket>? OnReceive;
+	public event Action<TzePacket, TzeTcpConnection>? OnReceive;
 
 	/// <summary>
 	/// Called when the client to which this TzeTcpConnection refers gets disconnected.
@@ -87,7 +87,7 @@ public class TzeTcpConnection
 	{
 		if (OnReceive != null)
 		{
-			foreach (Delegate del in OnReceive.GetInvocationList()) OnReceive -= (Action<TzePacket>)del;
+			foreach (Delegate del in OnReceive.GetInvocationList()) OnReceive -= (Action<TzePacket, TzeTcpConnection>)del;
 		}
 		if (OnDisconnect != null)
 		{
@@ -133,7 +133,7 @@ public class TzeTcpConnection
 						DisconnectAndDispose();
 						continue;
 					}
-					OnReceive?.Invoke(packet ?? new TzePacket(TzePacket.TzePacketType.Message, buffer));
+					OnReceive?.Invoke(packet ?? new TzePacket(TzePacket.TzePacketType.Message, buffer), this);
 				}
 			}
 			catch (Exception ex)
