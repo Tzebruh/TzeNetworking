@@ -81,10 +81,19 @@ public class TzeTcpConnection
 
 	#region DisconnectAndDispose
 	/// <summary>
-	/// Disconnects the and disposes of the internal Socket object.
+	/// Disconnects, unsubscribes all handlers from all events, and disposes of the internal Socket object.
 	/// </summary>
 	public void DisconnectAndDispose()
 	{
+		if (OnReceive != null)
+		{
+			foreach (Delegate del in OnReceive.GetInvocationList()) OnReceive -= (Action<TzePacket>)del;
+		}
+		if (OnDisconnect != null)
+		{
+			foreach (Delegate del in OnDisconnect.GetInvocationList()) OnDisconnect -= (Action<TzeTcpConnection>)del;
+		}
+
 		Disconnected = true;
 		cancellationSource.Cancel();
 		ClientSocket.Disconnect(false);

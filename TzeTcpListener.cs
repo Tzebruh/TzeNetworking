@@ -98,10 +98,15 @@ public class TzeTcpListener
 	}
 
 	/// <summary>
-	/// Disposes of the internal TcpListener object.
+	/// Unsubscribes all handlers from OnConnection and disposes of the internal TcpListener object.
 	/// </summary>
 	public void Dispose()
 	{
+		if (OnConnection != null)
+		{
+			foreach (Delegate del in OnConnection.GetInvocationList()) OnConnection -= (Action<TzeTcpConnection>)del;
+		}
+
 		cancellationSource.Cancel();
 		#if NET8_0_OR_GREATER
 		Listener.Dispose();

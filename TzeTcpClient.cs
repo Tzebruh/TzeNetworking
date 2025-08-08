@@ -97,11 +97,16 @@ public class TzeTcpClient
 
 	#region Dispose
 	/// <summary>
-	/// Disposes of the internal TcpClient object.
+	/// Unsubscribes all handlers from OnReceive and disposes of the internal TcpClient object.
 	/// </summary>
 	public void Dispose()
 	{
-		try { cancellationSource.Cancel(); } catch (ObjectDisposedException) {}
+		if (OnReceive != null)
+		{
+			foreach (Delegate del in OnReceive.GetInvocationList()) OnReceive -= (Action<TzePacket>)del;
+		}
+
+		try { cancellationSource.Cancel(); } catch (ObjectDisposedException) { }
 		Client.Dispose();
 		cancellationSource.Dispose();
 	}
